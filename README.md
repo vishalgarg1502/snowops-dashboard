@@ -3,13 +3,13 @@
 > AI-powered fleet intelligence dashboard for municipal public works — built for the **Geotab Vibe Coding Competition 2026**.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![Gemini](https://img.shields.io/badge/Gemini_Flash-1.5-blue?logo=google)
+![Gemini](https://img.shields.io/badge/Gemini_Flash-2.0-blue?logo=google)
 ![Google Maps](https://img.shields.io/badge/Google_Maps-API-green?logo=googlemaps)
 ![Geotab](https://img.shields.io/badge/Geotab-API-orange)
 
 ## 🎯 Overview
 
-SnowOps Intelligence is a standalone web dashboard that gives a municipal public works fleet manager in **Oakville, Ontario** a real-time, AI-powered view of 20 vans and trucks.
+SnowOps Intelligence is a standalone web dashboard that gives a municipal public works fleet manager in **Oakville, Ontario** a real-time, AI-powered view of 50 vans and trucks.
 
 ### Features
 
@@ -24,9 +24,9 @@ SnowOps Intelligence is a standalone web dashboard that gives a municipal public
 
 - **Frontend**: Next.js 16 (App Router) + Tailwind CSS 4
 - **Data**: Geotab MyGeotab API + OData Data Connector
-- **AI Chat**: Google Gemini 1.5 Flash
+- **AI Chat**: Google Gemini 2.0 Flash
 - **Maps**: Google Maps JavaScript API via `@vis.gl/react-google-maps`
-- **Demo DB**: `demo_vans_and_trucks_20_vehicles` (20 simulated vehicles)
+- **Demo DB**: `demo_vans_and_trucks_50_vehicles` (50 simulated vehicles)
 
 ## 🚀 Quick Start
 
@@ -47,6 +47,8 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+> **Note:** The first load may take 5-10 seconds as the Geotab API fetches data for all vehicles. Subsequent refreshes are faster due to credential caching.
 
 ## 🔑 Environment Variables
 
@@ -82,14 +84,6 @@ snowops-dashboard/
 ├── .env.example
 └── package.json
 ```
-
-## 🏆 Competition Prizes Targeted
-
-| Prize | Amount | Angle |
-|-------|--------|-------|
-| **Vibe Master** | $10,000 | Best overall standalone vibe-coded application |
-| **Green Award** | $2,500 | Fuel efficiency + idle time optimization |
-| **Best Use of Google Tools** | $2,500 | Gemini + Google Maps + Next.js |
 
 ## 📄 License
 

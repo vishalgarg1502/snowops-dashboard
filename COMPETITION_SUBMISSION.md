@@ -4,22 +4,22 @@
 
 **Participant:** Vishal Garg  
 **GitHub:** https://github.com/vishalgarg1502/snowops-dashboard  
-**Demo Database:** `demo_vans_and_trucks_20_vehicles`  
+**Demo Database:** `demo_vans_and_trucks_50_vehicles`  
 **Category:** Standalone Web Application  
 
 ---
 
 ## 🎯 Problem Statement
 
-Municipal public works fleet managers in Oakville, Ontario need a unified view of their 20-vehicle snow operations fleet. Existing tools require switching between multiple screens for maps, reports, diagnostics, and analysis. SnowOps Intelligence consolidates everything into a single dashboard with AI-powered natural-language querying.
+Municipal public works fleet managers in Oakville, Ontario need a unified view of their 50-vehicle snow operations fleet. Existing tools require switching between multiple screens for maps, reports, diagnostics, and analysis. SnowOps Intelligence consolidates everything into a single dashboard with AI-powered natural-language querying.
 
 ## 🏗️ What I Built
 
-A **standalone Next.js dashboard** with four core panels:
+A **standalone Next.js dashboard** with four core panels (initial data load takes 5-10 seconds):
 
-1. **Live Fleet Map** — Google Maps displaying all 20 vehicles' real-time GPS positions with color-coded route trails (polylines) of today's driving paths.
+1. **Live Fleet Map** — Google Maps displaying all 50 vehicles' real-time GPS positions with color-coded route trails (polylines) of today's driving paths.
 2. **Fleet Efficiency Scoreboard** — Vehicles ranked by fuel efficiency (km/L), idle time, and computed safety score using real Geotab trip data.
-3. **Ask Your Fleet (Gemini Chat)** — Natural language chat where the fleet manager can ask questions like *"Which truck has the worst fuel efficiency today?"* — powered by Gemini Flash with the day's fleet data injected as context.
+3. **Ask Your Fleet (Gemini Chat)** — Natural language chat where the fleet manager can ask questions like *"Which truck has the worst fuel efficiency today?"* — powered by Gemini 2.0 Flash with the day's fleet data injected as context.
 4. **Alert Panel** — Top 5 active diagnostic fault codes surfaced from the Geotab FaultData API.
 
 ## 🔧 Vibe Coding Process
@@ -56,7 +56,7 @@ This project was built entirely using **vibe coding** with an AI-powered IDE:
 | Maps | **Google Maps JS API** | Live vehicle markers + route polylines |
 | Fleet Data | **Geotab MyGeotab API** | Real-time vehicle positions, trips, faults |
 | Fleet Analytics | **Geotab Data Connector (OData)** | Pre-aggregated daily KPIs |
-| AI Chat | **Google Gemini 1.5 Flash** | Natural language fleet Q&A |
+| AI Chat | **Google Gemini 2.0 Flash** | Natural language fleet Q&A |
 | Icons | **Lucide React** | UI iconography |
 
 ## 🏆 Prizes Targeted

@@ -7,10 +7,10 @@ export async function askFleet(
     question: string,
     fleetContext: Record<string, unknown>
 ): Promise<string> {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const systemPrompt = `You are SnowOps Assistant, an AI fleet intelligence tool for Oakville's municipal public works department.
-You help fleet managers understand their 20-vehicle fleet (vans and trucks used for snow removal and road maintenance).
+You help fleet managers understand their 50-vehicle fleet (vans and trucks used for snow removal and road maintenance).
 
 Here is the current fleet data as JSON context:
 ${JSON.stringify(fleetContext, null, 2)}
