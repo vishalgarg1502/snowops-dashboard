@@ -1,7 +1,32 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Send, Bot, User, Loader2 } from "lucide-react";
+
+/** Lightweight markdown-to-HTML: handles **bold**, * bullets, and line breaks */
+function renderMarkdown(text: string): string {
+    // Escape HTML
+    let html = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // Bold **text**
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Convert lines starting with * or - into list items
+    const lines = html.split('\n');
+    const result: string[] = [];
+    let inList = false;
+    for (const line of lines) {
+        const trimmed = line.trim();
+        const bulletMatch = trimmed.match(/^[*\-]\s+(.*)/);
+        if (bulletMatch) {
+            if (!inList) { result.push('<ul style="margin:4px 0;padding-left:18px;list-style:disc">'); inList = true; }
+            result.push(`<li style="margin:2px 0">${bulletMatch[1]}</li>`);
+        } else {
+            if (inList) { result.push('</ul>'); inList = false; }
+            if (trimmed) result.push(`<p style="margin:2px 0">${trimmed}</p>`);
+        }
+    }
+    if (inList) result.push('</ul>');
+    return result.join('');
+}
 
 interface Message {
     role: "user" | "assistant";
@@ -31,8 +56,13 @@ export default function AskFleetChat({ fleetContext }: AskFleetChatProps) {
     const [loading, setLoading] = useState(false);
     const bottomRef = useRef<HTMLDivElement>(null);
 
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        // Scroll only the chat container, not the whole page
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
     }, [messages]);
 
     async function sendMessage(text: string) {
@@ -66,7 +96,7 @@ export default function AskFleetChat({ fleetContext }: AskFleetChatProps) {
     return (
         <div className="flex flex-col h-full">
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto space-y-3 pr-1 mb-3">
+            <div ref={chatContainerRef} className="flex-1 overflow-y-auto space-y-3 pr-1 mb-3">
                 {messages.map((msg, i) => (
                     <div
                         key={i}
@@ -74,8 +104,8 @@ export default function AskFleetChat({ fleetContext }: AskFleetChatProps) {
                     >
                         <div
                             className={`w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-xs ${msg.role === "assistant"
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-slate-600 text-white"
+                                ? "bg-blue-600 text-white"
+                                : "bg-slate-600 text-white"
                                 }`}
                         >
                             {msg.role === "assistant" ? (
@@ -86,11 +116,16 @@ export default function AskFleetChat({ fleetContext }: AskFleetChatProps) {
                         </div>
                         <div
                             className={`max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed ${msg.role === "assistant"
-                                    ? "bg-slate-800 text-slate-200"
-                                    : "bg-blue-600 text-white"
+                                ? "bg-slate-800 text-slate-200"
+                                : "bg-blue-600 text-white"
                                 }`}
+                            dangerouslySetInnerHTML={
+                                msg.role === "assistant"
+                                    ? { __html: renderMarkdown(msg.content) }
+                                    : undefined
+                            }
                         >
-                            {msg.content}
+                            {msg.role === "user" ? msg.content : undefined}
                         </div>
                     </div>
                 ))}
@@ -127,7 +162,7 @@ export default function AskFleetChat({ fleetContext }: AskFleetChatProps) {
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); sendMessage(input); } }}
                     placeholder="Ask your fleet..."
                     className="flex-1 bg-slate-800 border border-slate-600 rounded-xl px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
                 />
